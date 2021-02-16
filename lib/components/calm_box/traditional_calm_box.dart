@@ -15,7 +15,8 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     with SingleTickerProviderStateMixin {
   CalmBoxBloc calmBoxBloc = CalmBoxBloc();
   AnimationController _animationController;
-  double radius = 0.655;
+  Animation<double> _backgroundTween;
+  double radius = 0.55;
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 4000),
         vsync: this,
-        lowerBound: 0.655,
+        lowerBound: 0.55,
         upperBound: 0.95)
       ..addStatusListener((AnimationStatus animationStatus) {
         print('Animation Status $animationStatus');
@@ -43,6 +44,9 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
       ..addListener(() {
         setState(() {});
       });
+
+    _backgroundTween =
+        Tween<double>(begin: 0.42, end: 0.5).animate(_animationController);
   }
 
   @override
@@ -55,7 +59,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
           top: height * 0.265,
           child: Container(
             width: width,
-            height: height * 0.5,
+            height: height * _backgroundTween.value,
             child: Stack(
               children: [
                 GradientBackground(),
@@ -64,24 +68,24 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
                   child: WhiteLine(height: height * 0.0039, width: width),
                 ),
                 Positioned(
-                  top: height * 0.28,
+                  top: height * 0.2755, //28
                   child: WhiteLine(height: height * 0.01, width: width),
                 ),
                 Positioned(
-                  top: height * 0.32,
+                  top: height * 0.31, //32
                   child: WhiteLine(height: height * 0.017, width: width),
                 ),
                 Positioned(
-                  top: height * 0.36,
+                  top: height * 0.345,
+                  child: WhiteLine(height: height * 0.018, width: width),
+                ),
+                Positioned(
+                  top: height * 0.38,
                   child: WhiteLine(height: height * 0.028, width: width),
                 ),
                 Positioned(
-                  top: height * 0.4,
-                  child: WhiteLine(height: height * 0.035, width: width),
-                ),
-                Positioned(
-                  top: height * 0.5,
-                  child: WhiteLine(height: height * 0.034, width: width),
+                  top: height * 0.42,
+                  child: WhiteLine(height: height * 0.03, width: width),
                 ),
               ],
             ),
