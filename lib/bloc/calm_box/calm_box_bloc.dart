@@ -6,8 +6,8 @@ class CalmBoxBloc {
 
   StreamController<CalmBox> _expandStreamController =
       StreamController<CalmBox>();
-  StreamSink<CalmBox> get _inExpand => _expandStreamController.sink;
-  Stream<CalmBox> get outExpand => _expandStreamController.stream;
+  StreamSink<CalmBox> get _inCalmBox => _expandStreamController.sink;
+  Stream<CalmBox> get outCalmBox => _expandStreamController.stream;
 
   StreamController<CalmBoxEvent> _calmBoxEventController =
       StreamController<CalmBoxEvent>();
@@ -30,7 +30,7 @@ class CalmBoxBloc {
       _calmBox = CalmBox.completedShrink;
     }
     print('CalmBoxState = $_calmBox');
-    _inExpand.add(_calmBox);
+    _inCalmBox.add(_calmBox);
   }
 
   void dispose() {

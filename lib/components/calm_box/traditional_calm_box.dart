@@ -5,6 +5,7 @@ import 'package:calmly/components/gradient_background.dart';
 import 'package:calmly/components/white_line.dart';
 import 'package:calmly/bloc/calm_box/calm_box_bloc.dart';
 import 'package:calmly/bloc/calm_box/calm_box_event.dart';
+import 'package:calmly/bloc/bloc_provider.dart';
 
 class TraditionalCalmBox extends StatefulWidget {
   @override
@@ -13,15 +14,20 @@ class TraditionalCalmBox extends StatefulWidget {
 
 class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     with SingleTickerProviderStateMixin {
-  CalmBoxBloc calmBoxBloc = CalmBoxBloc();
+  CalmBoxBloc _calmBoxBloc;
   AnimationController _animationController;
-  Animation<double> _backgroundTween;
   double radius = 0.55;
 
   @override
   void initState() {
     super.initState();
     initController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _calmBoxBloc = BlocProvider.of(context).calmBoxBloc;
   }
 
   void initController() {
@@ -34,32 +40,30 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
         print('Animation Status $animationStatus');
         if (animationStatus == AnimationStatus.forward ||
             animationStatus == AnimationStatus.reverse) {
-          calmBoxBloc.calmBoxEventSink.add(BusyCalmBoxEvent());
+          _calmBoxBloc.calmBoxEventSink.add(BusyCalmBoxEvent());
         } else if (animationStatus == AnimationStatus.completed) {
-          calmBoxBloc.calmBoxEventSink.add(CompletedExpandCalmBoxEvent());
+          _calmBoxBloc.calmBoxEventSink.add(CompletedExpandCalmBoxEvent());
         } else if (animationStatus == AnimationStatus.dismissed) {
-          calmBoxBloc.calmBoxEventSink.add(CompletedShrinkCalmBoxEvent());
+          _calmBoxBloc.calmBoxEventSink.add(CompletedShrinkCalmBoxEvent());
         }
       })
       ..addListener(() {
         setState(() {});
       });
-
-    _backgroundTween =
-        Tween<double>(begin: 0.42, end: 0.5).animate(_animationController);
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         Positioned(
           top: height * 0.265,
           child: Container(
             width: width,
-            height: height * _backgroundTween.value,
+            height: height * 0.47,
             child: Stack(
               children: [
                 GradientBackground(),
@@ -92,7 +96,8 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
           ),
         ),
         StreamBuilder(
-          stream: calmBoxBloc.outExpand,
+          initialData: CalmBox.shrink,
+          stream: _calmBoxBloc.outCalmBox,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             CalmBox calmBox = snapshot.data;
             return GestureDetector(
@@ -127,7 +132,6 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
               ),
             );
           },
-          initialData: CalmBox.shrink,
         ),
       ],
     );
@@ -137,11 +141,11 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     if (calmBox != CalmBox.busy) {
       HapticFeedback.vibrate();
       if (calmBox == CalmBox.expand || calmBox == CalmBox.completedExpand) {
-        calmBoxBloc.calmBoxEventSink.add(ShrinkCalmBoxEvent());
+        _calmBoxBloc.calmBoxEventSink.add(ShrinkCalmBoxEvent());
         _animationController.reverse();
       } else if (calmBox == CalmBox.shrink ||
           calmBox == CalmBox.completedShrink) {
-        calmBoxBloc.calmBoxEventSink.add(ExpandCalmBoxEvent());
+        _calmBoxBloc.calmBoxEventSink.add(ExpandCalmBoxEvent());
         _animationController.forward();
       }
     }
