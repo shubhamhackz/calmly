@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:developer' as developer;
+import 'package:calmly/src/config/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:vibration/vibration.dart';
 
 import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
@@ -19,6 +23,8 @@ class TraditionalCalmBox extends StatefulWidget {
 
 class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     with SingleTickerProviderStateMixin {
+  StreamSubscription _breatheCounterSubscription;
+  StreamSubscription _calmBoxSubscription;
   CalmBoxBloc _calmBoxBloc;
   AnimationController _animationController;
   double radius = 0.55;
@@ -27,6 +33,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   int lastBreatheCount;
   CalmBox lastCalmBoxEvent;
   bool hasStarted = false;
+  AppState _appState;
 
   @override
   void initState() {
@@ -40,6 +47,10 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     _calmBoxBloc = Provider.of(context).calmBoxBloc;
     _breatheBloc = Provider.of(context).breatheBloc;
     _breatheCounterBloc = Provider.of(context).breatheCounterBloc;
+    _appState = Provider.of(context).appState;
+    _appState.addListener(() {
+      setState(() {});
+    });
   }
 
   void initController() {
@@ -165,14 +176,23 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
 
   void handleTap(CalmBox calmBox) {
     if (calmBox != CalmBox.busy) {
-      HapticFeedback.vibrate();
+      HapticFeedback.heavyImpact();
       startCalmly();
       hasStarted = true;
     }
   }
 
+  vibrate() async {
+    if (await Vibration.hasVibrator()) {
+      Vibration.vibrate(duration: 70);
+    }
+  }
+
   exhale() {
     developer.log('Exhale');
+    if (_appState.isVibrationOn) {
+      vibrate();
+    }
     _calmBoxBloc.calmBoxEventSink.add(ShrinkCalmBoxEvent());
     _breatheBloc.inBreatheEvent.add(ExhaleEvent());
     _animationController.duration = const Duration(milliseconds: 2000); //2000
@@ -181,6 +201,9 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
 
   inhale() {
     developer.log('Inhale');
+    if (_appState.isVibrationOn) {
+      vibrate();
+    }
     _calmBoxBloc.calmBoxEventSink.add(ExpandCalmBoxEvent());
     _breatheBloc.inBreatheEvent.add(InhaleEvent());
     _animationController.duration = const Duration(milliseconds: 1000); //4000
@@ -192,29 +215,31 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     if (!hasStarted) {
       // don't listen if we are already listening
 
-      _breatheCounterBloc.outBreatheCounter.listen(mapBreatheCount);
-      _calmBoxBloc.outCalmBox.listen((calmBoxValue) {
-        lastCalmBoxEvent = calmBoxValue;
-        if (calmBoxValue == CalmBox.cancel) {
-          // setState(() {
-          //   _animationController.value = _animationController.lowerBound;
-          // });
+      _breatheCounterSubscription =
+          _breatheCounterBloc.outBreatheCounter.listen(mapBreatheCount);
+      _calmBoxSubscription = _calmBoxBloc.outCalmBox.listen(mapCalmBoxEvent);
+    }
+  }
 
-          // _animationController.stop(canceled: true);
-          _animationController.duration = const Duration(milliseconds: 200);
-          _animationController.animateTo(_animationController.lowerBound);
-          print('Animation Controller value: ${_animationController.value}');
-        } else if (calmBoxValue == CalmBox.completedExpand) {
-          _breatheBloc.inBreatheEvent.add(HoldBreatheEvent());
-          // Future.delayed(const Duration(milliseconds: 500), () {
-          // 7000
-          exhale();
-          // });
-        } else if (calmBoxValue == CalmBox.completedShrink) {
-          _breatheCounterBloc.inBreatheCounterEvent
-              .add(OneBreatheCounterEvent());
-        }
-      });
+  mapCalmBoxEvent(calmBoxValue) {
+    lastCalmBoxEvent = calmBoxValue;
+    if (calmBoxValue == CalmBox.cancel) {
+      // setState(() {
+      //   _animationController.value = _animationController.lowerBound;
+      // });
+
+      // _animationController.stop(canceled: true);
+      _animationController.duration = const Duration(milliseconds: 200);
+      _animationController.animateTo(_animationController.lowerBound);
+      print('Animation Controller value: ${_animationController.value}');
+    } else if (calmBoxValue == CalmBox.completedExpand) {
+      _breatheBloc.inBreatheEvent.add(HoldBreatheEvent());
+      // Future.delayed(const Duration(milliseconds: 500), () {
+      // 7000
+      exhale();
+      // });
+    } else if (calmBoxValue == CalmBox.completedShrink) {
+      _breatheCounterBloc.inBreatheCounterEvent.add(OneBreatheCounterEvent());
     }
   }
 
@@ -249,9 +274,11 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
 
   @override
   void dispose() {
-    _calmBoxBloc.dispose();
-    _breatheBloc.dispose();
-    _breatheCounterBloc.dispose();
+    // _calmBoxBloc.dispose();
+    // _breatheBloc.dispose();
+    // _breatheCounterBloc.dispose();
+    _breatheCounterSubscription.cancel();
+    _calmBoxSubscription.cancel();
     super.dispose();
   }
 }
