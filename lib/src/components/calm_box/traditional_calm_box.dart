@@ -1,32 +1,27 @@
-import 'dart:async';
-import 'dart:ui';
 import 'dart:developer' as developer;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:calmly/bloc/calm_box/calm_box_bloc.dart';
-import 'package:calmly/components/gradient_background.dart';
-import 'package:calmly/bloc/breathe/breathe_event.dart';
-import 'package:calmly/bloc/breathe/breathe_bloc.dart';
-import 'package:calmly/bloc/calm_box/calm_box_event.dart';
-import 'package:calmly/bloc/bloc_provider.dart';
-import 'package:calmly/bloc/breathe/breathe_counter_bloc.dart';
-import 'package:calmly/bloc/breathe/breathe_counter_event.dart';
+import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
+import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
+import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
+import 'package:calmly/src/bloc/breathe/breathe_event.dart';
+import 'package:calmly/src/components/gradient_background.dart';
+import 'package:calmly/src/components/white_line.dart';
+import 'package:calmly/src/bloc/calm_box/calm_box_bloc.dart';
+import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
+import 'package:calmly/src/bloc/bloc_provider.dart';
 
-class ModernCalmBox extends StatefulWidget {
+class TraditionalCalmBox extends StatefulWidget {
   @override
-  _ModernCalmBoxState createState() => _ModernCalmBoxState();
+  _TraditionalCalmBoxState createState() => _TraditionalCalmBoxState();
 }
 
-class _ModernCalmBoxState extends State<ModernCalmBox>
+class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation<double> _opacityTween;
-  Animation<double> _sigmaXTween;
-  Animation<double> _sigmaYTween;
-  // bool isExpanded = false;
   CalmBoxBloc _calmBoxBloc;
+  AnimationController _animationController;
+  double radius = 0.55;
   BreatheBloc _breatheBloc;
   BreatheCounterBloc _breatheCounterBloc;
   int lastBreatheCount;
@@ -36,12 +31,23 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
   @override
   void initState() {
     super.initState();
+    initController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _calmBoxBloc = BlocProvider.of(context).calmBoxBloc;
+    _breatheBloc = BlocProvider.of(context).breatheBloc;
+    _breatheCounterBloc = BlocProvider.of(context).breatheCounterBloc;
+  }
+
+  void initController() {
     _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 4000),
-      lowerBound: 0.55,
-      upperBound: 0.95,
-    )
+        duration: const Duration(milliseconds: 4000),
+        vsync: this,
+        lowerBound: 0.55,
+        upperBound: 0.95)
       ..addStatusListener((AnimationStatus animationStatus) {
         print('Animation Status : $animationStatus');
         if (animationStatus == AnimationStatus.forward ||
@@ -60,111 +66,106 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
             _breatheBloc.inBreatheEvent.add(IdleEvent());
           }
         }
-      })
-      ..addListener(() {
-        // setState(() {});
       });
-    _opacityTween =
-        Tween<double>(begin: 0.0, end: 0.35).animate(_animationController);
-    _sigmaXTween =
-        Tween<double>(begin: 0.03, end: 0.1).animate(_animationController);
-    _sigmaYTween =
-        Tween<double>(begin: 0.13, end: 0.18).animate(_animationController);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _calmBoxBloc = BlocProvider.of(context).calmBoxBloc;
-    _breatheBloc = BlocProvider.of(context).breatheBloc;
-    _breatheCounterBloc = BlocProvider.of(context).breatheCounterBloc;
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         Positioned(
           top: height * 0.265,
-          child: StreamBuilder(
-            initialData: CalmBox.shrink,
-            stream: _calmBoxBloc.outCalmBox,
-            builder: (BuildContext context, AsyncSnapshot<CalmBox> snapshot) {
-              CalmBox calmBox = snapshot.data;
-              if (calmBox == CalmBox.stop) {
-                _animationController.duration =
-                    const Duration(milliseconds: 250);
-                _animationController.stop();
-              }
-              return GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => handleTap(calmBox),
-                child: Container(
-                  alignment: Alignment.center,
-                  width: width,
-                  height: height * 0.5,
-                  // child: Container(
-                  //   width: width * _animationController.value,
-                  //   height: width * _animationController.value,
-                  //   child: GradientBackground(
-                  //     isCircle: true,
-                  //     colors: <Color>[
-                  //       const Color(0xFFFCE800),
-                  //       const Color(0xFFFFD100),
-                  //       const Color(0xFFFFA800),
-                  //       const Color(0xFFFF7B2A),
-                  //       const Color(0xFFFD007A),
-                  //       const Color(0xFFFB0086),
-                  //       const Color(0xFFFB0085),
-                  //     ],
-                  //   ),
-                  // ),
-                  child: AnimatedBuilder(
-                    builder: (_, __) {
-                      return Container(
-                        width: width * _animationController.value,
-                        height: width * _animationController.value,
-                        child: GradientBackground(
-                          isCircle: true,
-                          colors: <Color>[
-                            const Color(0xFFFCE800),
-                            const Color(0xFFFFD100),
-                            const Color(0xFFFFA800),
-                            const Color(0xFFFF7B2A),
-                            const Color(0xFFFD007A),
-                            const Color(0xFFFB0086),
-                            const Color(0xFFFB0085),
-                          ],
-                        ),
-                      );
-                    },
-                    animation: _animationController,
-                  ),
+          child: Container(
+            width: width,
+            height: height * 0.47,
+            child: Stack(
+              children: [
+                GradientBackground(),
+                Positioned(
+                  top: height * 0.24,
+                  child: WhiteLine(height: height * 0.0039, width: width),
                 ),
-              );
-            },
-          ),
-        ),
-        Positioned(
-          top: height * 0.51,
-          child: IgnorePointer(
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: height * _sigmaXTween.value,
-                  sigmaY: width * _sigmaYTween.value,
-                ), //sigmaX = 0 (expanded)
-                child: Container(
-                  height: height * 0.5,
-                  width: width,
-                  color:
-                      const Color(0xFFF3F6F6).withOpacity(_opacityTween.value),
+                Positioned(
+                  top: height * 0.2755, //28
+                  child: WhiteLine(height: height * 0.01, width: width),
                 ),
-              ),
+                Positioned(
+                  top: height * 0.31, //32
+                  child: WhiteLine(height: height * 0.017, width: width),
+                ),
+                Positioned(
+                  top: height * 0.345,
+                  child: WhiteLine(height: height * 0.018, width: width),
+                ),
+                Positioned(
+                  top: height * 0.38,
+                  child: WhiteLine(height: height * 0.028, width: width),
+                ),
+                Positioned(
+                  top: height * 0.42,
+                  child: WhiteLine(height: height * 0.03, width: width),
+                ),
+              ],
             ),
           ),
+        ),
+        StreamBuilder(
+          initialData: CalmBox.shrink,
+          stream: _calmBoxBloc.outCalmBox,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            CalmBox calmBox = snapshot.data;
+            if (calmBox == CalmBox.stop) {
+              _animationController.duration = const Duration(milliseconds: 250);
+              _animationController.stop();
+            }
+            return GestureDetector(
+              onTap: () => handleTap(calmBox),
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcOut,
+                ), // This one will create the magic
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        backgroundBlendMode: BlendMode.dstOut,
+                      ), // This one will handle background + difference out
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      // child: Container(
+                      //   height: width * _animationController.value,
+                      //   width: width * _animationController.value,
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.red,
+                      //     borderRadius: BorderRadius.circular(width * 0.5),
+                      //   ),
+                      // ),
+                      child: AnimatedBuilder(
+                        animation: _animationController,
+                        builder: (_, __) {
+                          return Container(
+                            height: width * _animationController.value,
+                            width: width * _animationController.value,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(width * 0.5),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
@@ -175,12 +176,10 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
   //     HapticFeedback.vibrate();
   //     if (calmBox == CalmBox.expand || calmBox == CalmBox.completedExpand) {
   //       _calmBoxBloc.calmBoxEventSink.add(ShrinkCalmBoxEvent());
-  //       _breatheBloc.inBreatheEvent.add(InhaleEvent());
   //       _animationController.reverse();
   //     } else if (calmBox == CalmBox.shrink ||
   //         calmBox == CalmBox.completedShrink) {
   //       _calmBoxBloc.calmBoxEventSink.add(ExpandCalmBoxEvent());
-  //       _breatheBloc.inBreatheEvent.add(ExhaleEvent());
   //       _animationController.forward();
   //     }
   //   }

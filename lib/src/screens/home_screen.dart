@@ -1,19 +1,16 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:calmly/bloc/breathe/breathe_event.dart';
 import 'package:flutter/material.dart';
 
-import 'package:calmly/constants/custom_icons_icons.dart';
-import 'package:calmly/components/calm_box/traditional_calm_box.dart';
-import 'package:calmly/components/settings_bottom_sheet.dart';
-import 'package:calmly/components/calm_box/modern_calm_box.dart';
-import 'package:calmly/bloc/breathe/breathe_bloc.dart';
+import 'package:calmly/src/constants/custom_icons_icons.dart';
+import 'package:calmly/src/components/calm_box/traditional_calm_box.dart';
+import 'package:calmly/src/components/settings_bottom_sheet.dart';
+import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 
-import 'package:calmly/bloc/calm_box/calm_box_bloc.dart';
-import 'package:calmly/bloc/bloc_provider.dart';
-import 'package:calmly/bloc/breathe/breathe_counter_bloc.dart';
-import 'package:calmly/bloc/breathe/breathe_counter_event.dart';
-import 'package:calmly/bloc/calm_box/calm_box_event.dart';
+import 'package:calmly/src/bloc/calm_box/calm_box_bloc.dart';
+import 'package:calmly/src/bloc/bloc_provider.dart';
+import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
+import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

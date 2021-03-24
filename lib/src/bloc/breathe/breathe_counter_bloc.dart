@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:calmly/bloc/breathe/breathe_counter_event.dart';
+import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
 
 class BreatheCounterBloc {
   int _breatheCounter = 4;

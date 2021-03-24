@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:calmly/bloc/calm_box/calm_box_event.dart';
+import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
 
 class CalmBoxBloc {
   CalmBox _calmBox;

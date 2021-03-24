@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:calmly/bloc/breathe/breathe_event.dart';
+import 'package:calmly/src/bloc/breathe/breathe_event.dart';
 
 class BreatheBloc {
   Breathe _breathe;
