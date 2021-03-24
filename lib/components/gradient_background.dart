@@ -19,7 +19,7 @@ class GradientBackground extends StatelessWidget {
           gradient: LinearGradient(
             transform: GradientRotation(1.5),
             // stops: [0.1, 0.3, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0],
-            colors: colors,
+            colors: colors ?? finalColor,
           ),
         ),
       ),

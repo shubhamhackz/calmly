@@ -5,3 +5,5 @@ class InhaleEvent extends BreatheEvent {}
 class HoldBreatheEvent extends BreatheEvent {}
 
 class ExhaleEvent extends BreatheEvent {}
+
+class IdleEvent extends BreatheEvent {}

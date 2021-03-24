@@ -1,3 +1,5 @@
+import 'package:calmly/bloc/breathe/breathe_bloc.dart';
+import 'package:calmly/bloc/breathe/breathe_counter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,6 +19,11 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   CalmBoxBloc _calmBoxBloc;
   AnimationController _animationController;
   double radius = 0.55;
+  BreatheBloc _breatheBloc;
+  BreatheCounterBloc _breatheCounterBloc;
+  int lastBreatheCount;
+  CalmBox lastCalmBoxEvent;
+  bool hasStarted = false;
 
   @override
   void initState() {

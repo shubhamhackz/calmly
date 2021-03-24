@@ -5,9 +5,11 @@ import 'package:calmly/bloc/breathe/breathe_event.dart';
 class BreatheBloc {
   Breathe _breathe;
 
-  StreamController<Breathe> _breatheController = StreamController<Breathe>();
+  StreamController<Breathe> _breatheController =
+      StreamController<Breathe>.broadcast();
   StreamSink<Breathe> get _inBreathe => _breatheController.sink;
-  Stream<Breathe> get outBreathe => _breatheController.stream;
+  Stream<Breathe> get outBreathe =>
+      _breatheController.stream.asBroadcastStream();
 
   StreamController<BreatheEvent> _breatheEventController =
       StreamController<BreatheEvent>();
@@ -25,6 +27,8 @@ class BreatheBloc {
       _breathe = Breathe.holdBreathe;
     } else if (breatheEvent is ExhaleEvent) {
       _breathe = Breathe.exhale;
+    } else if (breatheEvent is IdleEvent) {
+      _breathe = Breathe.idle;
     }
 
     _inBreathe.add(_breathe);
@@ -40,4 +44,5 @@ enum Breathe {
   inhale,
   holdBreathe,
   exhale,
+  idle,
 }

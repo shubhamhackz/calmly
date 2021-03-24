@@ -5,6 +5,7 @@ import 'package:calmly/screens/home_screen.dart';
 import 'package:calmly/bloc/bloc_provider.dart';
 import 'package:calmly/bloc/breathe/breathe_bloc.dart';
 import 'package:calmly/bloc/calm_box/calm_box_bloc.dart';
+import 'package:calmly/bloc/breathe/breathe_counter_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       home: BlocProvider(
         calmBoxBloc: CalmBoxBloc(),
         breatheBloc: BreatheBloc(),
+        breatheCounterBloc: BreatheCounterBloc(),
         child: HomeScreen(),
       ),
     );
