@@ -2,11 +2,11 @@ import 'package:calmly/src/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'bloc/bloc_provider.dart';
+import 'utils/provider.dart';
 import 'bloc/breathe/breathe_bloc.dart';
 import 'bloc/breathe/breathe_counter_bloc.dart';
 import 'bloc/calm_box/calm_box_bloc.dart';
-import 'config/app_state_notifier.dart';
+import 'config/app_state.dart';
 
 class App extends StatelessWidget {
   @override
@@ -23,11 +23,11 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider(
+      home: Provider(
         calmBoxBloc: CalmBoxBloc(),
         breatheBloc: BreatheBloc(),
         breatheCounterBloc: BreatheCounterBloc(),
-        appState: AppStateNotifier(),
+        appState: AppState(),
         child: HomeScreen(),
       ),
     );

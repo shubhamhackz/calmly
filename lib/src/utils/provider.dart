@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
-import 'package:calmly/src/config/app_state_notifier.dart';
+import 'package:calmly/src/config/app_state.dart';
 
-class BlocProvider extends InheritedWidget {
-  BlocProvider(
+class Provider extends InheritedWidget {
+  Provider(
       {Key key,
       this.child,
       this.calmBoxBloc,
@@ -19,14 +19,14 @@ class BlocProvider extends InheritedWidget {
   final CalmBoxBloc calmBoxBloc;
   final BreatheBloc breatheBloc;
   final BreatheCounterBloc breatheCounterBloc;
-  final AppStateNotifier appState;
+  final AppState appState;
 
-  static BlocProvider of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<BlocProvider>();
+  static Provider of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>();
   }
 
   @override
-  bool updateShouldNotify(BlocProvider oldWidget) {
+  bool updateShouldNotify(Provider oldWidget) {
     return true;
   }
 }

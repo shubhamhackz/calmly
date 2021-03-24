@@ -10,7 +10,7 @@ import 'package:calmly/src/components/gradient_background.dart';
 import 'package:calmly/src/components/white_line.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_bloc.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
-import 'package:calmly/src/bloc/bloc_provider.dart';
+import 'package:calmly/src/utils/provider.dart';
 
 class TraditionalCalmBox extends StatefulWidget {
   @override
@@ -37,9 +37,9 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _calmBoxBloc = BlocProvider.of(context).calmBoxBloc;
-    _breatheBloc = BlocProvider.of(context).breatheBloc;
-    _breatheCounterBloc = BlocProvider.of(context).breatheCounterBloc;
+    _calmBoxBloc = Provider.of(context).calmBoxBloc;
+    _breatheBloc = Provider.of(context).breatheBloc;
+    _breatheCounterBloc = Provider.of(context).breatheCounterBloc;
   }
 
   void initController() {
@@ -139,14 +139,6 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
                     ),
                     Align(
                       alignment: Alignment.center,
-                      // child: Container(
-                      //   height: width * _animationController.value,
-                      //   width: width * _animationController.value,
-                      //   decoration: BoxDecoration(
-                      //     color: Colors.red,
-                      //     borderRadius: BorderRadius.circular(width * 0.5),
-                      //   ),
-                      // ),
                       child: AnimatedBuilder(
                         animation: _animationController,
                         builder: (_, __) {
@@ -170,20 +162,6 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
       ],
     );
   }
-
-  // void handleTap(CalmBox calmBox) {
-  //   if (calmBox != CalmBox.busy) {
-  //     HapticFeedback.vibrate();
-  //     if (calmBox == CalmBox.expand || calmBox == CalmBox.completedExpand) {
-  //       _calmBoxBloc.calmBoxEventSink.add(ShrinkCalmBoxEvent());
-  //       _animationController.reverse();
-  //     } else if (calmBox == CalmBox.shrink ||
-  //         calmBox == CalmBox.completedShrink) {
-  //       _calmBoxBloc.calmBoxEventSink.add(ExpandCalmBoxEvent());
-  //       _animationController.forward();
-  //     }
-  //   }
-  // }
 
   void handleTap(CalmBox calmBox) {
     if (calmBox != CalmBox.busy) {

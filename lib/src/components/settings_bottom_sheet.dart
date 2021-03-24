@@ -1,3 +1,5 @@
+import 'package:calmly/src/config/app_state.dart';
+import 'package:calmly/src/utils/provider.dart';
 import 'package:flutter/material.dart';
 
 class SettingsBottomSheet extends StatefulWidget {
@@ -10,6 +12,14 @@ class SettingsBottomSheet extends StatefulWidget {
 }
 
 class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
+  AppState _appState;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _appState = Provider.of(context).appState;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -33,8 +43,12 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
               children: [
                 Text('Rock the 80s theme'),
                 Switch(
-                  value: false,
-                  onChanged: (value) {},
+                  value: _appState.isModernBox,
+                  onChanged: (value) {
+                    setState(() {
+                      _appState.updateBox(!_appState.isModernBox);
+                    });
+                  },
                 ),
               ],
             ),
@@ -68,8 +82,12 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
               children: [
                 Text('Vibration'),
                 Switch(
-                  value: false,
-                  onChanged: (value) {},
+                  value: _appState.isVibrationOn,
+                  onChanged: (value) {
+                    setState(() {
+                      _appState.updateVibration(!_appState.isVibrationOn);
+                    });
+                  },
                 ),
               ],
             ),

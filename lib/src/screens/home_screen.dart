@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:calmly/src/components/calm_box/modern_calm_box.dart';
+import 'package:calmly/src/config/app_state.dart';
 import 'package:flutter/material.dart';
 
 import 'package:calmly/src/constants/custom_icons_icons.dart';
@@ -7,8 +9,7 @@ import 'package:calmly/src/components/calm_box/traditional_calm_box.dart';
 import 'package:calmly/src/components/settings_bottom_sheet.dart';
 import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 
-import 'package:calmly/src/bloc/calm_box/calm_box_bloc.dart';
-import 'package:calmly/src/bloc/bloc_provider.dart';
+import 'package:calmly/src/utils/provider.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
 
@@ -18,6 +19,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  AppState _appState;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _appState = Provider.of(context).appState;
+    _appState.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            TraditionalCalmBox(),
+            _appState.isModernBox ? ModernCalmBox() : TraditionalCalmBox(),
             HomeWidget(),
           ],
         ),
@@ -41,16 +52,14 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  CalmBoxBloc _calmBoxBloc;
   BreatheBloc _breatheBloc;
   BreatheCounterBloc _breatheCounterBloc;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _calmBoxBloc = BlocProvider.of(context).calmBoxBloc;
-    _breatheBloc = BlocProvider.of(context).breatheBloc;
-    _breatheCounterBloc = BlocProvider.of(context).breatheCounterBloc;
+    _breatheBloc = Provider.of(context).breatheBloc;
+    _breatheCounterBloc = Provider.of(context).breatheCounterBloc;
   }
 
   @override

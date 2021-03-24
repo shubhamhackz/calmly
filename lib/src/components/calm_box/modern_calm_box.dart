@@ -9,7 +9,7 @@ import 'package:calmly/src/components/gradient_background.dart';
 import 'package:calmly/src/bloc/breathe/breathe_event.dart';
 import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
-import 'package:calmly/src/bloc/bloc_provider.dart';
+import 'package:calmly/src/utils/provider.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
 
@@ -70,9 +70,9 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _calmBoxBloc = BlocProvider.of(context).calmBoxBloc;
-    _breatheBloc = BlocProvider.of(context).breatheBloc;
-    _breatheCounterBloc = BlocProvider.of(context).breatheCounterBloc;
+    _calmBoxBloc = Provider.of(context).calmBoxBloc;
+    _breatheBloc = Provider.of(context).breatheBloc;
+    _breatheCounterBloc = Provider.of(context).breatheCounterBloc;
   }
 
   @override
@@ -164,22 +164,6 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
       ],
     );
   }
-
-  // void handleTap(CalmBox calmBox) {
-  //   if (calmBox != CalmBox.busy) {
-  //     HapticFeedback.vibrate();
-  //     if (calmBox == CalmBox.expand || calmBox == CalmBox.completedExpand) {
-  //       _calmBoxBloc.calmBoxEventSink.add(ShrinkCalmBoxEvent());
-  //       _breatheBloc.inBreatheEvent.add(InhaleEvent());
-  //       _animationController.reverse();
-  //     } else if (calmBox == CalmBox.shrink ||
-  //         calmBox == CalmBox.completedShrink) {
-  //       _calmBoxBloc.calmBoxEventSink.add(ExpandCalmBoxEvent());
-  //       _breatheBloc.inBreatheEvent.add(ExhaleEvent());
-  //       _animationController.forward();
-  //     }
-  //   }
-  // }
 
   void handleTap(CalmBox calmBox) {
     if (calmBox != CalmBox.busy) {
