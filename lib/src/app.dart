@@ -1,12 +1,12 @@
+import 'package:calmly/src/config/theme_config.dart';
 import 'package:calmly/src/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-import 'utils/provider.dart';
-import 'bloc/breathe/breathe_bloc.dart';
-import 'bloc/breathe/breathe_counter_bloc.dart';
-import 'bloc/calm_box/calm_box_bloc.dart';
 import 'config/app_state.dart';
+import 'constants/constants.dart';
 
 class App extends StatelessWidget {
   @override
@@ -17,19 +17,25 @@ class App extends StatelessWidget {
         statusBarIconBrightness: Brightness.dark,
       ),
     ); //change statusbar cxolor
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Provider(
-        calmBoxBloc: CalmBoxBloc(),
-        breatheBloc: BreatheBloc(),
-        breatheCounterBloc: BreatheCounterBloc(),
-        appState: AppState(),
-        child: HomeScreen(),
-      ),
+    return Consumer<AppState>(
+      builder: (_, appState, __) {
+        if (appState.themeSetting == ThemeSetting.system) {
+          var brightness = SchedulerBinding.instance.window.platformBrightness;
+          bool darkModeOn = brightness == Brightness.dark;
+          if (darkModeOn) {
+            appState.updateTheme(ThemeSetting.dark);
+          } else {
+            appState.updateTheme(ThemeSetting.light);
+          }
+        }
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: appState.themeSetting == ThemeSetting.light
+              ? ThemeConfig.lightTheme
+              : ThemeConfig.darkTheme,
+          home: HomeScreen(),
+        );
+      },
     );
   }
 }

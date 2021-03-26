@@ -1,6 +1,10 @@
-import 'package:calmly/src/config/app_state.dart';
-import 'package:calmly/src/utils/provider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:calmly/src/config/app_state.dart';
+import 'package:calmly/src/constants/constants.dart';
+
+import 'package:provider/provider.dart';
+import 'package:calmly/src/utils/SystemTheme.dart';
 
 class SettingsBottomSheet extends StatefulWidget {
   const SettingsBottomSheet({
@@ -13,11 +17,15 @@ class SettingsBottomSheet extends StatefulWidget {
 
 class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
   AppState _appState;
+  ThemeSetting _theme;
+  bool isDark;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _appState = Provider.of(context).appState;
+    _appState = Provider.of<AppState>(context);
+    _theme = _appState.themeSetting;
+    isDark = _theme == ThemeSetting.dark;
   }
 
   @override
@@ -30,9 +38,9 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
       width: width,
       height: height * 0.3,
       child: DefaultTextStyle(
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 18,
-          color: Colors.black,
+          color: isDark ? const Color(0xFFFFFFFF) : const Color(0xFF000000),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,24 +65,89 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return Dialog(
-                        child: Container(
-                          height: height * 0.3,
-                          child: Column(
-                            children: [
-                              Text('Select Theme'),
-                            ],
-                          ),
-                        ),
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return Dialog(
+                            child: Container(
+                              height: height * 0.275,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                      right: width * 0.075,
+                                      left: width * 0.075,
+                                      bottom: height * 0.0075,
+                                      top: height * 0.025,
+                                    ),
+                                    child: Text(
+                                      'Select Theme',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  RadioListTile<ThemeSetting>(
+                                    onChanged: (ThemeSetting theme) {
+                                      setState(() {
+                                        _theme = theme;
+                                        SystemTheme.check(_appState);
+                                      });
+                                    },
+                                    value: ThemeSetting.system,
+                                    groupValue: _theme,
+                                    title: Text('System Default'),
+                                  ),
+                                  RadioListTile<ThemeSetting>(
+                                    onChanged: (ThemeSetting theme) {
+                                      setState(() {
+                                        _appState
+                                            .updateTheme(ThemeSetting.dark);
+                                        _theme = theme;
+                                      });
+                                    },
+                                    value: ThemeSetting.dark,
+                                    groupValue: _theme,
+                                    title: Text('Dark'),
+                                  ),
+                                  RadioListTile<ThemeSetting>(
+                                    onChanged: (ThemeSetting theme) {
+                                      setState(() {
+                                        _theme = theme;
+                                        _appState
+                                            .updateTheme(ThemeSetting.light);
+                                      });
+                                    },
+                                    value: ThemeSetting.light,
+                                    groupValue: _theme,
+                                    title: Text('Light'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       );
                     });
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Theme'),
-                  Text('Light'),
-                ],
+              child: Builder(
+                builder: (_) {
+                  ThemeSetting themeSetting = _appState.themeSetting;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (themeSetting == ThemeSetting.system)
+                        Text('System')
+                      else if (themeSetting == ThemeSetting.dark)
+                        Text('Dark')
+                      else if (themeSetting == ThemeSetting.light)
+                        Text('Light')
+                    ],
+                  );
+                },
               ),
             ),
             Row(
@@ -98,5 +171,3 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
     );
   }
 }
-
-enum Theme { system, dark, light }

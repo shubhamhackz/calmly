@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:calmly/src/constants/constants.dart';
 
 class AppState extends ChangeNotifier {
-  bool _isModernBox = false;
-  bool _isDarkMode = false;
+  bool _isModernBox = true;
   bool _isVibrateOn = true;
+  ThemeSetting _themeSetting = ThemeSetting.system;
 
-  updateTheme(bool isDarkMode) {
-    this._isDarkMode = isDarkMode;
+  updateTheme(ThemeSetting themeSetting) {
+    this._themeSetting = themeSetting;
     notifyListeners();
   }
 
@@ -20,7 +21,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  get isDarkMode => _isDarkMode;
+  get themeSetting => _themeSetting;
 
   get isModernBox => _isModernBox;
 

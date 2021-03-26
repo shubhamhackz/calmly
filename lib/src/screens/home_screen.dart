@@ -1,17 +1,19 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:calmly/src/components/calm_box/modern_calm_box.dart';
-import 'package:calmly/src/config/app_state.dart';
+
+import 'package:calmly/src/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:calmly/src/constants/custom_icons_icons.dart';
 import 'package:calmly/src/components/calm_box/traditional_calm_box.dart';
 import 'package:calmly/src/components/settings_bottom_sheet.dart';
 import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 
-import 'package:calmly/src/utils/provider.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
+import 'package:calmly/src/components/calm_box/modern_calm_box.dart';
+import 'package:calmly/src/config/app_state.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,28 +21,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  AppState _appState;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _appState = Provider.of(context).appState;
-    _appState.addListener(() {
-      setState(() {});
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            _appState.isModernBox ? ModernCalmBox() : TraditionalCalmBox(),
-            HomeWidget(),
-          ],
-        ),
-      ),
+    return Consumer<AppState>(
+      builder: (_, appState, __) {
+        return Scaffold(
+          body: SafeArea(
+            child: Stack(
+              children: [
+                appState.isModernBox ? ModernCalmBox() : TraditionalCalmBox(),
+                HomeWidget(),
+              ],
+            ),
+          ),
+        );
+      },
+
       // body: TraditionalCalmBox(),
     );
   }
@@ -54,12 +50,14 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   BreatheBloc _breatheBloc;
   BreatheCounterBloc _breatheCounterBloc;
+  bool isDark;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _breatheBloc = Provider.of(context).breatheBloc;
-    _breatheCounterBloc = Provider.of(context).breatheCounterBloc;
+    _breatheBloc = Provider.of<BreatheBloc>(context);
+    _breatheCounterBloc = Provider.of<BreatheCounterBloc>(context);
+    isDark = context.read<AppState>().themeSetting == ThemeSetting.dark;
   }
 
   @override
@@ -93,7 +91,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                     icon: Icon(
                       CustomIcons.dot_3,
                       size: width * 0.1,
-                      color: Colors.black,
+                      color: isDark
+                          ? const Color(0xFFFFFFFF)
+                          : const Color(0xFF000000),
                     ),
                     onPressed: () {
                       Scaffold.of(context)

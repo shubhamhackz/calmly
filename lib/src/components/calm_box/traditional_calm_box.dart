@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:calmly/src/config/app_state.dart';
+import 'package:calmly/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:vibration/vibration.dart';
+import 'package:provider/provider.dart';
 
 import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
@@ -14,7 +16,6 @@ import 'package:calmly/src/components/gradient_background.dart';
 import 'package:calmly/src/components/white_line.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_bloc.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
-import 'package:calmly/src/utils/provider.dart';
 
 class TraditionalCalmBox extends StatefulWidget {
   @override
@@ -34,6 +35,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   CalmBox lastCalmBoxEvent;
   bool hasStarted = false;
   AppState _appState;
+  bool isDark;
 
   @override
   void initState() {
@@ -44,13 +46,11 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _calmBoxBloc = Provider.of(context).calmBoxBloc;
-    _breatheBloc = Provider.of(context).breatheBloc;
-    _breatheCounterBloc = Provider.of(context).breatheCounterBloc;
-    _appState = Provider.of(context).appState;
-    _appState.addListener(() {
-      setState(() {});
-    });
+    _calmBoxBloc = Provider.of<CalmBoxBloc>(context);
+    _breatheBloc = Provider.of<BreatheBloc>(context);
+    _breatheCounterBloc = Provider.of<BreatheCounterBloc>(context);
+    _appState = context.read<AppState>();
+    isDark = _appState.themeSetting == ThemeSetting.dark;
   }
 
   void initController() {
@@ -97,27 +97,51 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
                 GradientBackground(),
                 Positioned(
                   top: height * 0.24,
-                  child: WhiteLine(height: height * 0.0039, width: width),
+                  child: DividerLine(
+                    height: height * 0.0039,
+                    width: width,
+                    isDark: isDark,
+                  ),
                 ),
                 Positioned(
                   top: height * 0.2755, //28
-                  child: WhiteLine(height: height * 0.01, width: width),
+                  child: DividerLine(
+                    height: height * 0.01,
+                    width: width,
+                    isDark: isDark,
+                  ),
                 ),
                 Positioned(
                   top: height * 0.31, //32
-                  child: WhiteLine(height: height * 0.017, width: width),
+                  child: DividerLine(
+                    height: height * 0.017,
+                    width: width,
+                    isDark: isDark,
+                  ),
                 ),
                 Positioned(
                   top: height * 0.345,
-                  child: WhiteLine(height: height * 0.018, width: width),
+                  child: DividerLine(
+                    height: height * 0.018,
+                    width: width,
+                    isDark: isDark,
+                  ),
                 ),
                 Positioned(
                   top: height * 0.38,
-                  child: WhiteLine(height: height * 0.028, width: width),
+                  child: DividerLine(
+                    height: height * 0.028,
+                    width: width,
+                    isDark: isDark,
+                  ),
                 ),
                 Positioned(
                   top: height * 0.42,
-                  child: WhiteLine(height: height * 0.03, width: width),
+                  child: DividerLine(
+                    height: height * 0.03,
+                    width: width,
+                    isDark: isDark,
+                  ),
                 ),
               ],
             ),
@@ -136,7 +160,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
               onTap: () => handleTap(calmBox),
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
-                  Colors.white,
+                  isDark ? const Color(0xFF000000) : const Color(0xFFFFFFFF),
                   BlendMode.srcOut,
                 ), // This one will create the magic
                 child: Stack(
@@ -195,7 +219,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     }
     _calmBoxBloc.calmBoxEventSink.add(ShrinkCalmBoxEvent());
     _breatheBloc.inBreatheEvent.add(ExhaleEvent());
-    _animationController.duration = const Duration(milliseconds: 2000); //2000
+    _animationController.duration = const Duration(milliseconds: 8000); //8000
     _animationController.reverse();
   }
 
@@ -206,7 +230,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     }
     _calmBoxBloc.calmBoxEventSink.add(ExpandCalmBoxEvent());
     _breatheBloc.inBreatheEvent.add(InhaleEvent());
-    _animationController.duration = const Duration(milliseconds: 1000); //4000
+    _animationController.duration = const Duration(milliseconds: 4000); //4000
     _animationController.forward();
   }
 
@@ -234,10 +258,10 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
       print('Animation Controller value: ${_animationController.value}');
     } else if (calmBoxValue == CalmBox.completedExpand) {
       _breatheBloc.inBreatheEvent.add(HoldBreatheEvent());
-      // Future.delayed(const Duration(milliseconds: 500), () {
-      // 7000
-      exhale();
-      // });
+      Future.delayed(const Duration(milliseconds: 7000), () {
+        // 7000
+        exhale();
+      });
     } else if (calmBoxValue == CalmBox.completedShrink) {
       _breatheCounterBloc.inBreatheCounterEvent.add(OneBreatheCounterEvent());
     }
@@ -250,9 +274,9 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     } else if (breatheCount == -1) {
       cancelCalmly();
     } else {
-      // Future.delayed(const Duration(milliseconds: 1000), () {
-      inhale();
-      // });
+      Future.delayed(const Duration(milliseconds: 700), () {
+        inhale();
+      });
     }
   }
 
