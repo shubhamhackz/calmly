@@ -94,7 +94,8 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
                                     onChanged: (ThemeSetting theme) {
                                       setState(() {
                                         _theme = theme;
-                                        SystemTheme.check(_appState);
+                                        _appState
+                                            .updateTheme(ThemeSetting.system);
                                       });
                                     },
                                     value: ThemeSetting.system,

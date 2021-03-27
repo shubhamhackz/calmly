@@ -84,11 +84,10 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
     return Stack(
       children: [
         Positioned(
-          top: height * 0.265,
+          top: height * 0.24,
           child: Container(
             width: width,
             height: height * 0.47,

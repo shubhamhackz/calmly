@@ -53,11 +53,16 @@ class _HomeWidgetState extends State<HomeWidget> {
   bool isDark;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _breatheBloc = Provider.of<BreatheBloc>(context);
     _breatheCounterBloc = Provider.of<BreatheCounterBloc>(context);
-    isDark = context.read<AppState>().themeSetting == ThemeSetting.dark;
+    isDark = Provider.of<AppState>(context).themeSetting == ThemeSetting.dark;
   }
 
   @override
@@ -149,11 +154,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                     ),
                   ),
-                  Text(
-                    '08',
-                    style: const TextStyle(
-                        fontSize: 50, fontWeight: FontWeight.bold),
-                  ),
+                  mapCountDown(breathe),
                 ],
               );
             },
@@ -163,20 +164,44 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  String mapBreathingInfo(Breathe breathe) {
-    String breatheInfo;
+  CountDown mapCountDown(Breathe breathe) {
+    CountDown _countDown;
     if (breathe == Breathe.inhale) {
-      breatheInfo = 'Inhale\nfrom your\nnose';
+      _countDown = CountDown(
+        countDownTime: 4,
+        key: UniqueKey(),
+      );
     } else if (breathe == Breathe.holdBreathe) {
-      breatheInfo = 'Hold\nyour\nbreathe';
+      _countDown = CountDown(
+        countDownTime: 7,
+        key: UniqueKey(),
+      );
     } else if (breathe == Breathe.exhale) {
-      breatheInfo = 'Exhale\nfrom your\nmouth';
+      _countDown = CountDown(countDownTime: 8);
     }
     if (breathe == Breathe.idle) {
-      breatheInfo = 'Tap\nCircle to\nstart';
+      _countDown = CountDown(
+        countDownTime: 0,
+        key: UniqueKey(),
+      );
     }
-    return breatheInfo;
+    return _countDown;
   }
+}
+
+String mapBreathingInfo(Breathe breathe) {
+  String breatheInfo;
+  if (breathe == Breathe.inhale) {
+    breatheInfo = 'Inhale\nfrom your\nnose';
+  } else if (breathe == Breathe.holdBreathe) {
+    breatheInfo = 'Hold\nyour\nbreathe';
+  } else if (breathe == Breathe.exhale) {
+    breatheInfo = 'Exhale\nfrom your\nmouth';
+  }
+  if (breathe == Breathe.idle) {
+    breatheInfo = 'Tap\nCircle to\nstart';
+  }
+  return breatheInfo;
 }
 
 class CountDown extends StatefulWidget {
@@ -191,38 +216,45 @@ class CountDown extends StatefulWidget {
 
 class _CountDownState extends State<CountDown> {
   Timer _timer;
-  var _start = 4;
+  int _time;
   void startTimer() {
-    // _start = widget.countDownTime;
-    var time = Duration(seconds: widget.countDownTime);
-    _timer = new Timer.periodic(
-      time,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-      },
-    );
+    _time = widget.countDownTime;
+    var _interval = const Duration(seconds: 1);
+    _timer = Timer.periodic(_interval, (_) {
+      print('Time : $_time');
+      if (_time <= 0) {
+        _timer.cancel();
+      } else {
+        setState(() {
+          _time--;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  cancelCount() {
+    _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    startTimer();
     return Text(
-      '$_start',
-      style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+      '0${_time ?? 0}',
+      style: const TextStyle(
+        fontSize: 50,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
   }
 }

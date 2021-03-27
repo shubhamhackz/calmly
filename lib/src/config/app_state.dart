@@ -4,7 +4,7 @@ import 'package:calmly/src/constants/constants.dart';
 class AppState extends ChangeNotifier {
   bool _isModernBox = true;
   bool _isVibrateOn = true;
-  ThemeSetting _themeSetting = ThemeSetting.system;
+  ThemeSetting _themeSetting = ThemeSetting.light;
 
   updateTheme(ThemeSetting themeSetting) {
     this._themeSetting = themeSetting;
