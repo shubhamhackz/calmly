@@ -1,5 +1,6 @@
 import 'package:calmly/src/config/theme_config.dart';
 import 'package:calmly/src/screens/home_screen.dart';
+import 'package:calmly/src/utils/system_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +21,9 @@ class App extends StatelessWidget {
       builder: (_, appState, __) {
         return MaterialApp(
           title: 'Flutter Demo',
-          theme: appState.themeSetting == ThemeSetting.light
-              ? ThemeConfig.lightTheme
-              : ThemeConfig.darkTheme,
+          theme: SystemTheme.isDark(appState)
+              ? ThemeConfig.darkTheme
+              : ThemeConfig.lightTheme,
           home: HomeScreen(),
         );
       },

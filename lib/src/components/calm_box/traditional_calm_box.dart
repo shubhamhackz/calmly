@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:calmly/src/config/app_state.dart';
 import 'package:calmly/src/constants/constants.dart';
+import 'package:calmly/src/utils/system_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -49,8 +50,8 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     _calmBoxBloc = Provider.of<CalmBoxBloc>(context);
     _breatheBloc = Provider.of<BreatheBloc>(context);
     _breatheCounterBloc = Provider.of<BreatheCounterBloc>(context);
-    _appState = context.read<AppState>();
-    isDark = _appState.themeSetting == ThemeSetting.dark;
+    _appState = Provider.of<AppState>(context);
+    isDark = SystemTheme.isDark(_appState);
   }
 
   void initController() {

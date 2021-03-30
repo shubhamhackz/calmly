@@ -1,10 +1,10 @@
+import 'package:calmly/src/utils/system_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:calmly/src/config/app_state.dart';
 import 'package:calmly/src/constants/constants.dart';
 
 import 'package:provider/provider.dart';
-import 'package:calmly/src/utils/SystemTheme.dart';
 
 class SettingsBottomSheet extends StatefulWidget {
   const SettingsBottomSheet({
@@ -25,7 +25,7 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
     super.didChangeDependencies();
     _appState = Provider.of<AppState>(context);
     _theme = _appState.themeSetting;
-    isDark = _theme == ThemeSetting.dark;
+    isDark = SystemTheme.isDark(_appState);
   }
 
   @override
