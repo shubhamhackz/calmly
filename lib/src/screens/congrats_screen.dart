@@ -101,7 +101,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print('Pop');
+                          Navigator.of(context).pop();
                         },
                         child: Container(
                           padding:

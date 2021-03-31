@@ -156,7 +156,6 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
             if (calmBox == CalmBox.stop) {
               _animationController.duration = const Duration(milliseconds: 250);
               _animationController.stop();
-              showCongratsScreen();
             }
             return GestureDetector(
               onTap: () => handleTap(calmBox),
@@ -288,6 +287,9 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
         .add(CompletedBreatheCounterEvent());
 
     _breatheBloc.inBreatheEvent.add(IdleEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showCongratsScreen();
+    });
   }
 
   cancelCalmly() {

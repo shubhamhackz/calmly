@@ -230,9 +230,11 @@ class _CountDownState extends State<CountDown> {
       if (_time <= 0) {
         _timer.cancel();
       } else {
-        setState(() {
-          _time--;
-        });
+        if (mounted) {
+          setState(() {
+            _time--;
+          });
+        }
       }
     });
   }

@@ -106,8 +106,6 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
                   _animationController.duration =
                       const Duration(milliseconds: 250);
                   _animationController.stop();
-
-                  showCongratsScreen();
                 }
                 return GestureDetector(
                   behavior: HitTestBehavior.translucent,
@@ -271,6 +269,9 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
         .add(CompletedBreatheCounterEvent());
 
     _breatheBloc.inBreatheEvent.add(IdleEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showCongratsScreen();
+    });
   }
 
   cancelCalmly() {
