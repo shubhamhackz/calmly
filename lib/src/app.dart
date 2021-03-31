@@ -7,19 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'config/app_state.dart';
-import 'constants/constants.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-    ); //change statusbar cxolor
+    //change statusbar cxolor
     return Consumer<AppState>(
       builder: (_, appState, __) {
+        SystemTheme.changeStatusBarColor(appState);
         return MaterialApp(
           title: 'Flutter Demo',
           theme: SystemTheme.isDark(appState)

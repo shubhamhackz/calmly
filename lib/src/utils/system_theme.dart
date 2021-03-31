@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:calmly/src/config/app_state.dart';
 import 'package:calmly/src/constants/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 
 class SystemTheme {
   static check(AppState appState) {
@@ -50,5 +52,23 @@ class SystemTheme {
       selectedTheme = ThemeSetting.dark;
     }
     return selectedTheme;
+  }
+
+  static changeStatusBarColor(appState) {
+    if (isDark(appState)) {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarColor: Colors.black,
+          statusBarIconBrightness: Brightness.light,
+        ),
+      );
+    } else {
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+      );
+    }
   }
 }
