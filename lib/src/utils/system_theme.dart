@@ -27,4 +27,28 @@ class SystemTheme {
     }
     return isDark;
   }
+
+  static themeToString(themeSetting) {
+    var selectedTheme;
+    if (themeSetting == ThemeSetting.system) {
+      selectedTheme = 'system';
+    } else if (themeSetting == ThemeSetting.light) {
+      selectedTheme = 'light';
+    } else if (themeSetting == ThemeSetting.dark) {
+      selectedTheme = 'dark';
+    }
+    return selectedTheme;
+  }
+
+  static stringToTheme(theme) {
+    var selectedTheme;
+    if (theme == 'system') {
+      selectedTheme = ThemeSetting.system;
+    } else if (theme == 'light') {
+      selectedTheme = ThemeSetting.light;
+    } else if (theme == 'dark') {
+      selectedTheme = ThemeSetting.dark;
+    }
+    return selectedTheme;
+  }
 }

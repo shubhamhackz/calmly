@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:calmly/src/config/app_state.dart';
-import 'package:calmly/src/constants/constants.dart';
 import 'package:calmly/src/utils/system_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +16,8 @@ import 'package:calmly/src/components/gradient_background.dart';
 import 'package:calmly/src/components/white_line.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_bloc.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
+import 'package:calmly/src/screens/congrats_screen.dart';
+import 'package:calmly/src/utils/local_db.dart';
 
 class TraditionalCalmBox extends StatefulWidget {
   @override
@@ -155,6 +156,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
             if (calmBox == CalmBox.stop) {
               _animationController.duration = const Duration(milliseconds: 250);
               _animationController.stop();
+              showCongratsScreen();
             }
             return GestureDetector(
               onTap: () => handleTap(calmBox),
@@ -304,5 +306,17 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
     _breatheCounterSubscription.cancel();
     _calmBoxSubscription.cancel();
     super.dispose();
+  }
+
+  showCongratsScreen() {
+    LocalDB localDB = LocalDB();
+    int count = localDB.getTotalCalmly ?? 0;
+    localDB.saveTotalCalmly(++count);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CongratsScreen(),
+      ),
+    );
   }
 }

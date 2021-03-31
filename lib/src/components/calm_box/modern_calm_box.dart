@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'dart:developer' as developer;
 
 import 'package:calmly/src/config/app_state.dart';
-import 'package:calmly/src/constants/constants.dart';
 import 'package:calmly/src/utils/system_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +13,8 @@ import 'package:calmly/src/bloc/breathe/breathe_bloc.dart';
 import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
+import 'package:calmly/src/screens/congrats_screen.dart';
+import 'package:calmly/src/utils/local_db.dart';
 
 import 'package:vibration/vibration.dart';
 import 'package:provider/provider.dart';
@@ -105,6 +106,8 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
                   _animationController.duration =
                       const Duration(milliseconds: 250);
                   _animationController.stop();
+
+                  showCongratsScreen();
                 }
                 return GestureDetector(
                   behavior: HitTestBehavior.translucent,
@@ -286,5 +289,17 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
     _breatheCounterSubscription.cancel();
     _calmBoxSubscription.cancel();
     super.dispose();
+  }
+
+  showCongratsScreen() {
+    LocalDB localDB = LocalDB();
+    int count = localDB.getTotalCalmly ?? 0;
+    localDB.saveTotalCalmly(++count);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CongratsScreen(),
+      ),
+    );
   }
 }
