@@ -6,13 +6,13 @@ Made with 🔥 in India
 This app is a clone of a app called calmaria.
 
 ## App Design 
-![Calmly](https://github.com/shubhamhackz/calmly/blob/main/files/preview.png)
+![Calmly](https://github.com/shubhamhackz/calmly/blob/main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png)
 
 ## Download App
 Note : Uploaded apk is a fat apk which works on armeabi-v7a (ARM 32-bit), arm64-v8a (ARM 64-bit), and x86-64 (x86 64-bit). If you want small size apk then please clone this reposittory and generate one using Android Studio or Visual Studio Code.
 
  
-[![Download Apk](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/apk_btn.png)](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/app-release.apk)
+[![Download Apk](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/apk_btn.png)](https://github.com/shubhamhackz/calmly/blob/main/files/app-release.apk)
 
 ## Screenshots 
 ![Screenshot 1](https://github.com/shubhamhackz/calmly/blob/main/files/screen-1_55.png) ![Screnshsot 2](https://github.com/shubhamhackz/calmly/blob/main/files/screen-2_55.png)![Screenshot 3](https://github.com/shubhamhackz/calmly/blob/main/files/screen-3_55.png) ![Screnshsot 4](https://github.com/shubhamhackz/calmly/blob/main/files/screen-4_55.png)![Screenshot 5](https://github.com/shubhamhackz/calmly/blob/main/files/screen-4_55.png) ![Screnshsot 6](https://github.com/shubhamhackz/calmly/blob/main/files/screen-6_55.png)
