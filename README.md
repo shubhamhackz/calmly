@@ -3,8 +3,7 @@ Made with 🔥 in India
 
 ![icon](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/icon.png)
 
-This flutter app is based on the design made by Matthieu Souteyrand on [Dribble](https://dribbble.com/shots/5846239-Light-dark-toggle-switch-InVision-Studio).He describes the design as: 
-> Back to UI motion with Invision Studio! This shot is a simple idea I had in mind, mixing a segmented control / toggle hybrid with a light theme / dark theme motion into one visual.
+This app is a clone of a app called calmaria.
 
 ## App Design 
 ![Calmly](https://github.com/shubhamhackz/calmly/blob/main/files/preview.png)
