@@ -3,7 +3,7 @@ Made with 🔥 in India
 
 ![icon](https://github.com/shubhamhackz/calmly/blob/main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png)
 
-This app is a clone of a app called calmaria.
+Calmly is made with flutter to practice meditation to bring headspace and calmness.This app is a clone of an [Calmaria](https://play.google.com/store/apps/details?id=com.abdz.breathing&hl=en_IN&gl=US), which is available on the play store. When I saw the Calmaria, I got mesmerized by it's UI and overall functionality.
 
 ## App Design 
 ![Calmly](https://github.com/shubhamhackz/calmly/blob/main/files/preview.png)
