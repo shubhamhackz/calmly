@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:calmly/src/config/app_state.dart';
 import 'package:calmly/src/utils/system_theme.dart';
 import 'package:calmly/src/utils/local_db.dart';
+import 'package:calmly/src/config/device_config.dart';
 
 class CongratsScreen extends StatefulWidget {
   @override
@@ -37,8 +38,6 @@ class _CongratsScreenState extends State<CongratsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.play();
     });
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor:
           isDark ? const Color(0xFF000000) : const Color(0xFFFFFFFF),

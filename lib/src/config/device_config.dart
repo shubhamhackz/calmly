@@ -1,0 +1,2 @@
+double width;
+double height;

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:calmly/src/bloc/calm_box/calm_box_event.dart';
+import 'package:calmly/src/constants/constants.dart';
 
 class CalmBoxBloc {
   CalmBox _calmBox;
@@ -42,14 +43,4 @@ class CalmBoxBloc {
     _expandStreamController.close();
     _calmBoxEventController.close();
   }
-}
-
-enum CalmBox {
-  expand,
-  shrink,
-  busy,
-  completedExpand,
-  completedShrink,
-  cancel,
-  stop,
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:calmly/src/bloc/breathe/breathe_event.dart';
+import 'package:calmly/src/constants/constants.dart';
 
 class BreatheBloc {
   Breathe _breathe;
@@ -38,11 +39,4 @@ class BreatheBloc {
     _breatheController.close();
     _breatheEventController.close();
   }
-}
-
-enum Breathe {
-  inhale,
-  holdBreathe,
-  exhale,
-  idle,
 }

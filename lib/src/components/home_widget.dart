@@ -1,4 +1,3 @@
-import 'package:calmly/src/bloc/breathe/breathe_event.dart';
 import 'package:flutter/material.dart';
 
 import 'package:calmly/src/constants/custom_icons_icons.dart';
@@ -9,6 +8,8 @@ import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
 import 'package:calmly/src/components/count_down.dart';
 import 'package:calmly/src/config/app_state.dart';
 import 'package:calmly/src/utils/system_theme.dart';
+import 'package:calmly/src/config/device_config.dart';
+import 'package:calmly/src/constants/constants.dart';
 
 import 'package:provider/provider.dart';
 
@@ -40,8 +41,6 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Consumer<AppState>(builder: (_, appState, __) {
       isDark = SystemTheme.isDark(appState);
       return Container(

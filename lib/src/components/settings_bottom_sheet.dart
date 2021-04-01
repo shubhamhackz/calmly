@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:calmly/src/config/app_state.dart';
 import 'package:calmly/src/constants/constants.dart';
+import 'package:calmly/src/config/device_config.dart';
 
 import 'package:provider/provider.dart';
 
@@ -30,8 +31,6 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Container(
       padding: EdgeInsets.symmetric(
           vertical: height * 0.025, horizontal: width * 0.05),

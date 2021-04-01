@@ -15,6 +15,8 @@ import 'package:calmly/src/bloc/breathe/breathe_counter_bloc.dart';
 import 'package:calmly/src/bloc/breathe/breathe_counter_event.dart';
 import 'package:calmly/src/screens/congrats_screen.dart';
 import 'package:calmly/src/utils/local_db.dart';
+import 'package:calmly/src/config/device_config.dart';
+import 'package:calmly/src/constants/constants.dart';
 
 import 'package:vibration/vibration.dart';
 import 'package:provider/provider.dart';
@@ -89,8 +91,6 @@ class _ModernCalmBoxState extends State<ModernCalmBox>
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Container(
       color: isDark ? const Color(0xFF000000) : const Color(0xFFFFFFFF),
       child: Stack(
