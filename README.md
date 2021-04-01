@@ -1,13 +1,12 @@
 # Calmly
 Made with 🔥 in India
 
-![icon](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/icon.png)
+![icon]()
 
-This flutter app is based on the design made by Matthieu Souteyrand on [Dribble](https://dribbble.com/shots/5846239-Light-dark-toggle-switch-InVision-Studio).He describes the design as: 
-> Back to UI motion with Invision Studio! This shot is a simple idea I had in mind, mixing a segmented control / toggle hybrid with a light theme / dark theme motion into one visual.
+This app is a clone of a app called calmaria.
 
 ## App Design 
-![Calmly](https://github.com/shubhamhackz/calmly/blob/main/files/showcase.gif)
+![Calmly](https://github.com/shubhamhackz/calmly/blob/main/files/preview.png)
 
 ## Download App
 Note : Uploaded apk is a fat apk which works on armeabi-v7a (ARM 32-bit), arm64-v8a (ARM 64-bit), and x86-64 (x86 64-bit). If you want small size apk then please clone this reposittory and generate one using Android Studio or Visual Studio Code.
@@ -16,7 +15,7 @@ Note : Uploaded apk is a fat apk which works on armeabi-v7a (ARM 32-bit), arm64-
 [![Download Apk](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/apk_btn.png)](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/app-release.apk)
 
 ## Screenshots 
-![Screenshot 1](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/mock2.png) ![Screnshsot 2](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/mockup2.png)
+![Screenshot 1](https://github.com/shubhamhackz/calmly/blob/main/files/screen-1_55.png) ![Screnshsot 2](https://github.com/shubhamhackz/calmly/blob/main/files/screen-2_55.png)![Screenshot 3](https://github.com/shubhamhackz/calmly/blob/main/files/screen-3_55.png) ![Screnshsot 4](https://github.com/shubhamhackz/calmly/blob/main/files/screen-4_55.png)![Screenshot 5](https://github.com/shubhamhackz/calmly/blob/main/files/screen-4_55.png) ![Screnshsot 6](https://github.com/shubhamhackz/calmly/blob/main/files/screen-6_55.png)
 
 ## Author 
 - [Facebook](https://www.facebook.com/shubhamhackz)
