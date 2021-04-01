@@ -1,7 +1,7 @@
 # Calmly
 Made with 🔥 in India
 
-![icon](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/icon.png)
+![icon]()
 
 This app is a clone of a app called calmaria.
 
