@@ -1,12 +1,12 @@
 # Calmly
 Made with 🔥 in India
 
-![icon]()
+![icon](https://github.com/shubhamhackz/calmly/blob/main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png)
 
 This app is a clone of a app called calmaria.
 
 ## App Design 
-![Calmly](https://github.com/shubhamhackz/calmly/blob/main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png)
+![Calmly](https://github.com/shubhamhackz/calmly/blob/main/files/preview.png)
 
 ## Download App
 Note : Uploaded apk is a fat apk which works on armeabi-v7a (ARM 32-bit), arm64-v8a (ARM 64-bit), and x86-64 (x86 64-bit). If you want small size apk then please clone this reposittory and generate one using Android Studio or Visual Studio Code.
