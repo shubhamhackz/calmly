@@ -1,3 +1,4 @@
+import 'package:calmly/src/bloc/breathe/breathe_event.dart';
 import 'package:flutter/material.dart';
 
 import 'package:calmly/src/constants/custom_icons_icons.dart';
@@ -121,11 +122,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onTap: () {
                           _breatheCounterBloc.inBreatheCounterEvent
                               .add(EndBreatheCounterEvent());
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            setState(() {
-                              isCancelled = true;
-                            });
-                          });
+
+                          // WidgetsBinding.instance.addPostFrameCallback((_) {
+                          //   setState(() {
+                          //     isCancelled = true;
+                          //   });
+                          // });
+                          // isCancelled = true;
                         },
                         child: Text(
                           'End now',
@@ -149,16 +152,11 @@ class _HomeWidgetState extends State<HomeWidget> {
     CountDown countDown;
     if (breathe == Breathe.inhale) {
       countDown = CountDown(countDownTime: 4, key: UniqueKey());
-    } else if (breathe == Breathe.holdBreathe && !isCancelled) {
+    } else if (breathe == Breathe.holdBreathe) {
       countDown = CountDown(countDownTime: 7, key: UniqueKey());
     } else if (breathe == Breathe.exhale) {
       countDown = CountDown(countDownTime: 8);
     } else if (breathe == Breathe.idle) {
-      countDown = CountDown(countDownTime: 0, key: UniqueKey());
-    }
-
-    if (breathe == Breathe.holdBreathe && isCancelled) {
-      isCancelled = false;
       countDown = CountDown(countDownTime: 0, key: UniqueKey());
     }
     return countDown;

@@ -34,10 +34,11 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   BreatheBloc _breatheBloc;
   BreatheCounterBloc _breatheCounterBloc;
   int lastBreatheCount;
-  CalmBox lastCalmBoxEvent;
+  var lastCalmBoxEvent;
   bool hasStarted = false;
   AppState _appState;
   bool isDark;
+  bool isCancel = false;
 
   @override
   void initState() {
@@ -69,6 +70,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
           // _breatheBloc.inBreatheEvent.add(HoldBreatheEvent());
         } else if (animationStatus == AnimationStatus.completed) {
           _calmBoxBloc.calmBoxEventSink.add(CompletedExpandCalmBoxEvent());
+
           _breatheBloc.inBreatheEvent.add(IdleEvent());
         } else if (animationStatus == AnimationStatus.dismissed) {
           print('Last CalmBoxEvent : $lastCalmBoxEvent');
@@ -249,13 +251,11 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   mapCalmBoxEvent(calmBoxValue) {
     lastCalmBoxEvent = calmBoxValue;
     if (calmBoxValue == CalmBox.cancel) {
-      // setState(() {
-      //   _animationController.value = _animationController.lowerBound;
-      // });
-
-      // _animationController.stop(canceled: true);
       _animationController.duration = const Duration(milliseconds: 200);
       _animationController.animateTo(_animationController.lowerBound);
+      // Future.delayed(Duration(milliseconds: 100), () {
+      //   isCancel = false;
+      // });
       print('Animation Controller value: ${_animationController.value}');
     } else if (calmBoxValue == CalmBox.completedExpand) {
       _breatheBloc.inBreatheEvent.add(HoldBreatheEvent());
@@ -293,6 +293,7 @@ class _TraditionalCalmBoxState extends State<TraditionalCalmBox>
   }
 
   cancelCalmly() {
+    isCancel = true;
     _calmBoxBloc.calmBoxEventSink.add(CancelCalmBoxEvent());
     _breatheCounterBloc.inBreatheCounterEvent
         .add(CompletedBreatheCounterEvent());
