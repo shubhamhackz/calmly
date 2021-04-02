@@ -1,9 +1,9 @@
 # Calmly
 Made with 🔥 in India
 
-![icon]()
+![icon](https://github.com/shubhamhackz/calmly/blob/main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png)
 
-This app is a clone of a app called calmaria.
+Calmly is made with flutter to practice meditation to bring headspace and calmness.This app is a clone of an [Calmaria](https://play.google.com/store/apps/details?id=com.abdz.breathing&hl=en_IN&gl=US), which is available on the play store. When I saw the Calmaria, I got mesmerized by it's UI and overall functionality.
 
 ## App Design 
 ![Calmly](https://github.com/shubhamhackz/calmly/blob/main/files/preview.png)
@@ -12,7 +12,7 @@ This app is a clone of a app called calmaria.
 Note : Uploaded apk is a fat apk which works on armeabi-v7a (ARM 32-bit), arm64-v8a (ARM 64-bit), and x86-64 (x86 64-bit). If you want small size apk then please clone this reposittory and generate one using Android Studio or Visual Studio Code.
 
  
-[![Download Apk](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/apk_btn.png)](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/app-release.apk)
+[![Download Apk](https://github.com/shubhamhackz/light_dark_toggle/blob/master/files/apk_btn.png)](https://github.com/shubhamhackz/calmly/blob/main/files/app-release.apk)
 
 ## Screenshots 
 ![Screenshot 1](https://github.com/shubhamhackz/calmly/blob/main/files/screen-1_55.png) ![Screnshsot 2](https://github.com/shubhamhackz/calmly/blob/main/files/screen-2_55.png)![Screenshot 3](https://github.com/shubhamhackz/calmly/blob/main/files/screen-3_55.png) ![Screnshsot 4](https://github.com/shubhamhackz/calmly/blob/main/files/screen-4_55.png)![Screenshot 5](https://github.com/shubhamhackz/calmly/blob/main/files/screen-4_55.png) ![Screnshsot 6](https://github.com/shubhamhackz/calmly/blob/main/files/screen-6_55.png)
@@ -29,7 +29,7 @@ Note : Uploaded apk is a fat apk which works on armeabi-v7a (ARM 32-bit), arm64-
 ```
 MIT License
 
-Copyright (c) 2020 Shubham Soni
+Copyright (c) 2021 Shubham Soni
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
